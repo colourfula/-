@@ -1,0 +1,222 @@
+#include<iostream>
+#include<windows.h>
+using namespace std;
+
+/*  P38
+int Get(int array[])
+{
+	return sizeof(array);
+}
+
+int main()
+{
+	int array[] = { 1, 2, 3, 4, 5 };
+	int size1 = sizeof(array);
+
+	int* array2 = array;
+	int size2 = sizeof(array2);
+
+	int size3 = Get(array);
+	
+	printf("%d,%d,%d\n", size1, size2,size3);    20\4\4
+	system("pause");
+	return 0;
+}*/
+
+
+
+/* P40 查找一个数组中重复的数字
+缺点：修改了数组中的内容，只能找到第一个重复的数字
+int Find(int array[], int len)
+{
+	if (len == 0)
+		return 0;
+
+	for (int i = 0; i < len; i++)
+	{
+		if (array[i] < 0 || array[i] > len-1)
+			return 0;
+	}
+
+	for (int i = 0; i < len; i++)
+	{
+		while (i != array[i])
+		{
+			if (array[i] == array[array[i]])
+				return array[array[i]];
+			else
+				swap(array[i], array[array[i]]);
+		}
+	}
+	return 0;
+}
+
+int main()
+{
+	int array[] = { 2, 3, 1, 0, 2, 5, 3 };
+	int* temp = NULL;
+	int data = Find(array,sizeof(array)/sizeof(array[0]));
+	printf("%d\n", data);
+	system("pause");
+	return 0;
+}*/
+
+
+
+/* P43 不修改数组的内容找出重复数字。
+int Count(const int* array, int len,int start, int end)
+{
+	if (NULL == array)
+		return 0;
+
+	int count = 0;
+	for (int i = 0; i < len; i++){
+		if (array[i] >= start && array[i] <= end)
+			count++;
+	}
+	return count;
+}
+
+int Find(const int* array, int len)
+{
+	int end = len - 1;
+	int start = 1;
+
+	if (len < 0 || array == NULL)
+		return -1;
+
+	while (end >= start)
+	{
+		int mid = start + ((end-start) >> 1);
+		int count = Count(array,len, start, mid);
+		if (end == start)
+		{
+			if (count = 1)
+				return end;
+			else
+				break;
+		}
+
+		if (count > (mid - start + 1))
+			end = mid;
+		else
+			start = mid + 1;
+	}
+	return -1;
+}
+
+int main()
+{
+	int array[] = { 2, 3, 5, 4, 3, 2, 6, 7 };
+	int data = Find(array, sizeof(array) / sizeof(array[0]));
+	printf("%d\n", data);
+	system("pause");
+	return 0;
+}*/
+
+
+
+/* P47 二维数组中查找
+int Find(int* array, int row, int col,int key)
+{
+	if (array != NULL && col >= 0 && row >= 0)
+	{
+		int rows = 0;
+		int cols = col - 1;
+		while (rows<row && cols>0)
+		{
+			if (array[rows*col + cols] == key)
+			{
+				return array[rows*col + cols];
+			}
+			else if (array[rows*col + cols > key])
+				cols--;
+			else
+				rows--;
+		}
+	}
+}
+int main()
+{
+	int array[4][4] = { { 1, 2, 8, 9 }, { 2, 4, 9, 12 }, \
+	{ 4, 7, 10, 13 }, {6, 8, 11, 15} };
+	int data = Find(*array,4,4,8);
+	cout << data << endl;
+	system("pause");
+	return 0;
+}*/
+
+
+/*   P49
+int main()
+{
+	char str1[] = "hello world";
+	char str2[] = "hello world";
+
+	char* str3 = "hello world";
+	char* str4 = "hello world";
+
+	if (str1 == str2)
+		printf("str1 and str2 is same\n");
+	else
+		printf("str1 and str2 is not same\n");    ......
+
+	if (str3 == str4)
+		printf("str3 and str4 is same\n");   .....
+	else
+		printf("str3 and str4 is not same\n");
+	system("pause");
+	return 0;
+}*/
+
+char* func(char str[], int len)
+{
+	if (str == NULL || len <= 0)
+		return 0;
+
+	int OriginalLength = 0;
+	int NumberOfBlack = 0;
+	int i = 0;
+
+	while (str[i] != '\0')
+	{
+		OriginalLength++;
+
+		if (str[i] == '\0')
+			NumberOfBlack++;
+
+		i++;
+	}
+	int newLength = OriginalLength + NumberOfBlack * 2;
+	if (newLength > len)
+		return 0;
+
+	int IndexOfOriginal = OriginalLength;
+	int IndexOfNew = newLength;
+	while (IndexOfOriginal >= 0 && IndexOfNew > IndexOfOriginal)
+	{
+		if (str[IndexOfOriginal] == '\0')
+		{
+			str[IndexOfNew--] = '0';
+			str[IndexOfNew--] = '2';
+			str[IndexOfNew--] = '%';
+		}
+		else
+			str[IndexOfNew--] = str[IndexOfOriginal];
+
+		IndexOfOriginal--;
+	}
+	return str;
+}
+
+
+int main()
+{
+	char* str = "we are happy";
+
+	char *str1=func(str, strlen(str));
+	for (int i = 0; i < strlen(str); i++)
+		printf("%c", &str1[i]);
+	system("pause");
+	return 0;
+}
