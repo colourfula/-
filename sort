@@ -1,0 +1,367 @@
+#include<iostream>
+#include<windows.h>
+using namespace std;
+
+void swap(int &a, int &b)
+{
+	int temp = 0;
+	temp = a;
+	a = b;
+	b = temp;
+}
+/*
+1.时间复杂度   最差：和所需要的序列相反 O(n^2)
+               最优:和所需要的序列相同 O(n)
+2.空间复杂度  0(1)
+3.稳定性：不稳定
+*/
+void InsertSort(int* array, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		int key = array[i];
+		int end =  i- 1;
+		while (end>=0 && key < array[end])
+		{
+			array[end+1] = array[end];
+			end--;
+		}
+		array[end + 1] = key;
+	}
+}
+
+
+/*
+1.时间复杂度  最差：O(N^2)
+              最优：n*O(lgN)
+2.空间复杂度:O(1)
+3.稳定性：稳定
+*/
+void BinarySort(int* array, int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		int left = array[0];
+		int right = array[size - 1];
+		int mid = 0;
+		int key = array[i];
+
+		while (left < right)
+		{
+			mid = left + (left + right) / 2;
+
+			if (key > array[mid])
+				left = mid + 1;
+			else
+				right = mid - 1;
+		}
+		for (int j = i - 1; i >= left; j--)
+		{
+			array[j + 1] = array[j];
+			array[left] = key;
+		}
+	}
+}
+
+
+
+//时间复杂度：大量数据测出来的
+//空间复杂度：O（1）
+//稳定性：不稳定
+//适用场景：数据量大
+void  ShellSort(int* array, int size)//希尔排序，又叫缩小增量排序
+{
+	int gap = size;
+	while (gap > 1)
+	{
+		for (int i = 0; i <= size; i++)
+		{
+			gap = gap / 3 + 1;
+			int key = array[i];
+			int end = i + gap;
+			while (end <=size-1 && key > array[end])
+			{
+				swap(key,array[end]);
+				end = end + gap;
+			}
+			break;
+		}
+//		break;
+	}
+}
+
+
+/*
+1.时间复杂度：O(N^2)
+2.空间复杂度:O(N^2)
+3.稳定性:不稳定
+*/
+void SelectSort(int* array, int size)
+{
+	for (int i = 0; i < size;i++)
+	{
+		int maxpos = 0;
+		for (int j = 1; j < size - i; j++)
+		{
+			if (array[j] > array[maxpos])
+				maxpos = j;
+		}
+		if (maxpos != size - i - 1)
+			swap(array[maxpos], array[size - i - 1]);
+	}
+}
+
+/*
+1.时间复杂度：O（N lgN）
+2.空间复杂度：O(1)
+3.稳定性：不稳定
+*/
+void adjust(int *array, int size, int parent)
+{
+	int child = parent * 2 + 1;
+	while (child < size)
+	{
+		if (child + 1 < size && array[child + 1] > array[child])
+			child = child + 1;
+
+		if (array[parent]<array[child])
+		{
+			swap(array[parent], array[child]);
+			parent = child;
+			child = parent * 2 + 1;
+		}
+		else
+			break;
+	}
+}
+void HeapSort(int *array, int size)
+{
+	//1.建堆
+	int root = (size - 2) >> 1;
+	for (; root >= 0; root--)
+	{
+		adjust(array, size - 1, root);
+	}
+	//2.堆排序
+	for (int i = 0; i < size; i++)
+	{
+		swap(array[0], array[size - i - 1]);
+		adjust(array, size - 1 - i, 0);
+	}
+}
+
+
+int GetMidData(int* array, int left, int right)
+{
+	int mid = left + (right-left) >> 1;
+	if (array[left] < array[right - 1])  //left   right
+	{
+		if (array[left] > array[mid])   //mid   left  right
+			return array[left];
+		else if (array[right - 1] < array[mid])  //left  right   mid
+			return array[right - 1];
+		else  //left  mid  right
+			return mid;
+	}
+	else   // right   left
+	{
+		if (array[right] > array[mid])   //mid  right  left
+			return array[right];
+		else if (array[left] > array[mid])  // right  mid  left
+			return array[mid];
+		else
+			return array[left];  //right  left  mid
+	}
+}
+
+/* 
+快排：数据量大且随机。
+begin从前往后找比基准值大的元素，找到就停下来。end从后往前找比基准值
+小的元素，找到就停下来。将两个数进行交换。重复进行。left = right时将left或
+right与key交换
+时间复杂度：
+空间复杂度：
+稳定性：
+*/
+int pation1(int* array, int left, int right)
+{
+	int begin = left;
+	int end = right - 1;
+	int key = array[end];//基准值，临时变量
+	//int key = GetMidData(array, left, right);
+
+	while (begin < end)
+	{
+		while (begin < end && array[end] <= key)
+			begin++;
+		while (begin < end && array[end] < key)
+			end--;
+
+		if (begin < end)
+			swap(array[begin], array[end]);
+	}
+	swap(array[begin], array[right - 1]);
+	return begin;
+}
+
+void QuickSort1(int* array, int size)
+{
+	int left = 0;
+	int right = size - 1;
+	if (left < right)
+	{
+		int div = pation1(array, left, right);
+		pation1(array, left, div);
+		pation1(array, div + 1, right);
+	}
+}
+
+/*
+2.挖坑法：
+end和begin，key取最右侧元素。begin从前往后找比key大的元素array[i]，
+找到了之后就用这个元素把最后一个坑填起来，这时候array[i]又是一个新
+坑。这时候，end再从后往前走找比key小的元素填到array[i]的坑里，同时
+begin超后走一步。重复这个过程。当begin=end时停止，这时begin或者end
+是一个新坑，用key将它填上。
+*/
+
+
+
+
+/*
+3.
+取array[0]为cur，其前一个元素为pre。key=array[size-1]。
+如果cur<key,将pre超后走一步，这时候看cur和pre在不在同一个元素上，如果在，不做任何处理。
+如果不在，交换两个元素。cur为空时停止循环。这时候基准值key还没有放好位置，就将key和pre
+进行交换
+2 0 4 3 1 6 8 7 1 5
+时间复杂度：  最差：逆序
+空间复杂度：
+稳定性：
+*/
+int pation3(int* array, int left,int right)
+{
+	int key = array[right - 1];
+	//int key = GetMidData(array, left, right);
+	int cur = 0;
+	int pre = cur - 1;
+
+	while (cur <right)
+	{
+		if (array[cur] < key && ++pre != cur)
+			swap(array[pre], array[cur]);
+		cur++;
+
+		int size = sizeof(array) / sizeof(array[0]);
+		if (++pre != right)
+			swap(array[pre], array[size - 1]);
+		return pre;
+	} 
+}
+
+void QuickSort3(int* array, int size)
+{
+	int left = 0;
+	int right = size - 1;
+	if (left < right)
+	{
+		int div = pation3(array, left, right);
+		pation3(array, left, div);
+		pation3(array, div + 1, right);
+	}
+}
+
+/*
+归并排序：
+把数组划分成相等的两部分，分别归并排序左右两部分。递归这个过程。
+*/
+void Merge(int* array, int left,int mid, int right, int* temp)
+{
+	int index1 = left;
+	int index2 = mid;
+	int index = left;
+	while (index1 < mid && index2 < right)//出循环的条件是左或者右把该走的走完了
+	{
+		if (array[index1] < array[index2])
+			temp[index++] = array[index1++];
+		else
+			temp[index++] = array[index2++];
+	}
+	while (index1 < mid)
+		temp[index++] = array[index1++];
+	while (index2 < right)
+		temp[index++] = array[index2++];
+
+	//将temp中的数据拷到array中
+	memcpy(temp + left, array+ right, (right - left)*sizeof(int));
+}
+void _MergeSort(int* array, int left,int right,int* temp)
+{
+	if (right - left <= 1)
+		return;
+	if (left < right)
+	{
+		int mid = left + ((right - left) >> 1);
+		_MergeSort(array, left, mid,temp);
+		_MergeSort(array, mid, right,temp);
+		Merge(array, left, mid, right, temp);
+	}
+}
+void MergeSort(int* array, int size)
+{
+	int* temp = new int[size];
+	_MergeSort(array, 0, size,temp);
+	delete[] temp;
+}
+
+
+
+
+int main()
+{
+	int array[] = { 8, 25,49, 25, 16, 21 };
+	InsertSort(array, sizeof(array) / sizeof(array[0]));
+	cout << "InsertSort:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i]<<endl;
+	 
+
+	BinarySort(array, sizeof(array) / sizeof(array[0]));
+	cout << " BinarySort:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	
+	ShellSort(array, sizeof(array) / sizeof(array[0]));
+	cout << " ShellSort:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	SelectSort(array, sizeof(array) / sizeof(array[0]));
+	cout << "  SelectSort:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	HeapSort(array, sizeof(array) / sizeof(array[0]));
+	cout << " HeapSort:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	QuickSort1(array, sizeof(array) / sizeof(array[0]));
+	cout << " QuickSort1:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	QuickSort3(array, sizeof(array) / sizeof(array[0]));
+	cout << " QuickSort3:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	MergeSort(array, sizeof(array) / sizeof(array[0]));
+	cout << "  MergeSort:" << endl;
+	for (int i = 0; i < sizeof(array) / sizeof(array[0]); i++)
+		cout << array[i] << endl;
+
+	system("pause");
+	return 0;
+}
