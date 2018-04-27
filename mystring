@@ -1,0 +1,115 @@
+#include<iostream>
+#include<string.h>
+#pragma warning(disable:4996)
+using namespace std;
+
+
+class String
+{
+public:
+	String(char* pStr = "")//构造函数
+		:_pStr(new char [strlen(pStr)+1])
+	{
+		strcpy(_pStr, pStr);
+	}
+
+
+
+	String(const String& s)//拷贝构造函数
+	{
+		char *_str = new char[strlen(s._pStr) + 1];
+		strcpy(_str, s._pStr);
+	}
+
+
+
+	String& operator=(const String& s)//赋值运算符重载
+	{
+		//1.检查自引用
+		if (this != &s)
+		{
+			//2.分配新的内存，复制内容
+			char* _str = new char[strlen(s._pStr) + 1];
+			strcpy(_str,s._pStr);
+
+			//3.释放原有的空间
+			delete[]_pStr;
+			_pStr = _str;
+		}
+		//4.返回本对象的引用
+		return *this;
+	}
+
+	~String()//析构函数
+	{
+		if (_pStr != NULL)
+		{
+			delete[] _pStr;
+			_pStr = NULL;
+		}
+	}
+
+	// 不能使用库函数 
+	size_t Size()const
+	{
+		size_t len = strlen(_pStr) + 1;
+		return len;
+	}
+
+
+	size_t Lengh()const
+	{
+		size_t len = strlen(_pStr) + 1;
+		return len;
+	}
+
+
+	char& operator[](size_t index)
+	{
+		if (index > 0)
+			return _pStr[index];
+	}
+
+
+	/*const char& operator[](size_t index)
+	{
+		if (index > 0)
+			return _pStr[index];
+	}*/
+
+
+	bool operator>(const String& s)
+	{
+		if (_pStr > s._pStr)
+			return true;
+	}
+
+	bool operator<(const String& s)
+	{
+		if (_pStr < s._pStr)
+			return true;
+	}
+
+	bool operator==(const String& s)
+	{
+		if (_pStr == s._pStr)
+			return true;
+	}
+
+
+	bool operator!=(const String& s)
+	{
+		if (_pStr != s._pStr)
+			return true;
+	}
+
+private:
+	char* _pStr;
+};
+
+void TestString()
+{
+	char* s1 = "hello world";
+	string s2 = s1;
+	string s3(s2);
+}
