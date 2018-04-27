@@ -1,0 +1,41 @@
+#include<iostream>
+using namespace std;
+
+//输入一个整数数组，实现一个函数，来调整该数
+//组中数字的顺序使得数组中所有的奇数位于数组的前半部分，所有偶数位于数组的后半部分。
+
+void swap(int *a, int *b)
+{
+	int temp = 0;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+void func(int array[],int len)
+{
+	int* start = &array[0];
+	int* end = &array[len-1];
+
+	while (end > start)
+	{
+		while(*start % 2 == 1)
+			start++;
+		while(*end % 2 == 0)
+			end--;
+		if (end > start)
+		{
+			swap(start, end);
+		}
+	}
+}
+
+void Testfunc()
+{
+	int array[] = { 11,44,66,7,4,8,33 };
+	int len = sizeof(array) / sizeof(array[0]);
+	func(array,len);
+	for (int i = 0; i < len; i++)
+		printf("%d ", array[i]);
+	printf("\n");
+}
