@@ -1,0 +1,127 @@
+//#include<iostream>
+//using namespace std;
+//#include<string.h>
+//#define _CRT_SECURE_NO_WARNINGS 1
+////#pragma (disable::4996)
+//
+//class String
+//{
+//public:
+//	String(char* m_Str = "")
+//		:_Size(strlen(m_Str)+1)
+//	{
+//		_Str = new char(_Size);
+//		for (int i = 0; i < _Size; i++)
+//		{
+//			_Str = m_Str;
+//		}
+//		_Str[_Size] = '\0';
+//	}
+//
+//	String(const String& s)
+//		:_Size(0)
+//	{
+//		if (this != &s)
+//		{
+//			_Str = s._Str;
+//		}
+//	}
+//
+//
+//	String& operator=(const String& s)
+//	{}
+//
+//	~String()
+//	{}
+//
+//	// 不能使用库函数 
+//	/*size_t Size()const;
+//	size_t Lengh()const;
+//	char& operator[](size_t index);
+//	const char& operator(size_t index);
+//	bool operator>(const String& s);
+//	bool operator<(const String& s);
+//	bool operator==(const String& s);
+//	bool operator!=(const String& s);
+//	void Copy(const String& s);
+//	bool strstr(const String& s);
+//	String& operator+=(const String& s);*/
+//private:
+//	char* _Str;
+//	int _Size;
+//};
+//
+//void TestString()
+//{
+//	String S1("hello world!");
+//}
+
+
+
+#include<iostream>
+using namespace std;
+
+class String
+{
+public:
+	String()//普通构造函数
+	{}
+
+	String(const char* str = "")//普通构造函数
+	{
+		if (NULL == str)
+		{
+			_data = new char[1];
+			*_data = '\0';
+			_size = 0;
+		}
+		else
+		{
+			int len = strlen(str);
+			_data = new char[len + 1];
+			strcpy(_data, str);
+			_size = len;
+		}
+	}
+
+
+
+	String(const String& str)//拷贝构造函数
+	{
+		int len = strlen(str._data);
+		_data = new char[len+1];
+		strcpy(_data, str._data);
+		_size = len;
+	}
+
+
+
+	String& operator = (const String& str)//赋值运算符重载
+	{
+		//1.检查自引用
+		if (this != &str)
+		{
+			//2.分配新内存并复制内容
+			int len = strlen(str._data);
+			char* temp = new char[len + 1];
+			strcpy(temp, str._data);
+			//3.释放原有空间
+			delete[] _data;
+			_data = temp;
+			_size = len;
+		}
+		//4.返回本类对象的引用
+		return *this;
+	}
+
+
+	~String()//析构函数
+	{
+		delete[] _data;
+	}
+
+
+private:
+	char *_data;
+	size_t _size;
+};
