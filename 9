@@ -1,0 +1,89 @@
+#include<iostream>
+using namespace std;
+
+class A
+{
+public:
+	virtual void fun1()
+	{
+		cout << "A->fun1" << endl;
+	}
+	virtual void fun2()
+	{
+		cout << "A->fun2" << endl;
+	}
+	int a;
+};
+
+class B1:public A
+{
+public:
+	virtual void fun1()
+	{
+		cout << "B1->fun1" << endl;
+	}
+	virtual void fun3()
+	{
+		cout << "B1->fun3" << endl;
+	}
+	int b1;
+};
+
+class B2 :public A
+{
+public:
+	virtual void fun2()
+	{
+		cout << "B2->fun2" << endl;
+	}
+	virtual void fun4()
+	{
+		cout << "B2->fun4" << endl;
+	}
+	int b2;
+};
+
+class C :public B1, public B2
+{
+public:
+	virtual void fun3()
+	{
+		cout << "C->fun3" << endl;
+	}
+	virtual void fun4()
+	{
+		cout << "C->fun4" << endl;
+	}
+	virtual void fun5()
+	{
+		cout << "C->fun5" << endl;
+	}
+	int c;
+};
+
+void Printf(int* VTable)
+{
+	cout << "虚表地址：" << VTable << endl;
+
+	for (int i = 0; VTable[i] != 0; ++i)
+	{
+		cout << "第%d个虚表地址：0x%x，->" << i << VTable[i] << endl;
+	}
+}
+
+void Test()
+{
+	A  a;
+	B1 b1;
+	B2 b2;
+	C c;
+	int* VTable1 = (int*)(*(int*)&a);
+	int* VTable2 = (int*)(*(int*)&b1);
+	int* VTable3 = (int*)(*(int*)&b2);
+	int* VTable4 = (int*)(*(int*)&c);
+
+	Printf(VTable1);
+	Printf(VTable2);
+	Printf(VTable3);
+	Printf(VTable4);
+}
