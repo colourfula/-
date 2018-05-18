@@ -1,0 +1,41 @@
+void func(char str[], int len)
+{
+	if (str == NULL || len <= 0)
+		return;
+
+	int OriginalLength = 0;
+	int NumberOfBlack = 0;
+	int i = 0;
+
+	//int* p1 = (int*)malloc(sizeof(int)* 10);  
+	//int* p2 = new (int);
+	//复习总结
+	while (str[i] != '\0')
+	{
+		++OriginalLength;
+
+		if (str[i] == 32)
+			++NumberOfBlack;
+
+		i++;
+	}
+	int newLength = OriginalLength + NumberOfBlack * 2;
+	if (newLength > len)
+		return;
+
+	int IndexOfOriginal = OriginalLength;
+	int IndexOfNew = newLength;
+	while (IndexOfOriginal >= 0 && IndexOfNew > IndexOfOriginal)
+	{
+		if (str[IndexOfOriginal] == '\0')
+		{
+			str[IndexOfNew--] = '0';
+			str[IndexOfNew--] = '2';
+			str[IndexOfNew--] = '%';
+		}
+		else
+			str[IndexOfNew--] = str[IndexOfOriginal];
+
+		--IndexOfOriginal;
+	}
+}
