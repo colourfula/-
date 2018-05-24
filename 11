@@ -1,0 +1,103 @@
+struct ListNode
+{
+	int _value;
+	ListNode* _next;
+};
+
+
+void AddToTail(ListNode** pHead, int value)
+{
+	ListNode* NewNode = new ListNode();
+	NewNode->_next = NULL;
+	NewNode->_value = value;
+
+	if (*pHead == NULL)
+	{
+		*pHead = NewNode;
+	}
+	else
+	{
+		ListNode* pNode = *pHead;
+		while (pNode->_next != NULL)
+		{
+			pNode = pNode->_next;
+		}
+		pNode->_next = NewNode;
+	}
+}
+
+ 
+void RemoveNode(ListNode** pHead, int value)
+{
+	if (pHead == NULL || *pHead==NULL)
+		return;
+
+	ListNode *ToDelete = NULL;
+
+	if ((*pHead)->_value == value)
+	{
+		ToDelete = *pHead;
+		ToDelete->_next = (*pHead)->_next;
+	}
+	else
+	{
+		ListNode* pNode = *pHead;
+		while (pNode->_value != value && pNode->_next != NULL)
+		{
+			pNode = pNode->_next;
+		}
+
+		if (pNode->_next != NULL && pNode->_value == value)
+		{
+			ToDelete = pNode;
+			ToDelete->_next = pNode->_next;
+		}
+	}
+
+	if (ToDelete != NULL)
+	{
+		delete ToDelete;
+		ToDelete = NULL;
+	}
+}
+
+
+void Printf(ListNode* pHead)
+{
+	if (pHead == NULL)
+		return;
+
+	stack<ListNode*> node;
+	ListNode *pNode = pHead;
+	while (pNode)
+	{
+		node.push(pNode);
+		pNode = pNode->_next;
+	}
+
+	while (!node.empty())
+	{
+		pNode = node.top();
+		cout <<pNode->_value;
+		node.pop();
+	}
+}
+
+
+
+void  Printf1(ListNode* pHead)
+{
+	if (pHead != NULL)
+	{
+		if (pHead->_next != NULL)
+		{
+			Printf1(pHead->_next);
+		}
+		cout << pHead->_value << endl;
+	}
+}
+
+
+
+
+
