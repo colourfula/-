@@ -1,0 +1,61 @@
+
+
+ struct ListNode {
+       int val;
+       struct ListNode *next;
+       ListNode(int x) : val(x),
+		                 next(NULL) 
+	   {
+       }
+ };
+
+class Solution 
+{
+public:
+	vector<int> printListFromTailToHead(ListNode* head) 
+	{
+		 
+		/*if (head != NULL)
+		{
+			stack<ListNode*> s;
+			ListNode* cur = head;
+			int count = 0;
+			while (cur->next != NULL)
+			{
+				s.push(cur);
+				cur = cur->next;
+				count++;
+			}
+
+
+
+			vector<int> v;
+			for (int i = 0; i < count; i++)
+			{
+				while (!s.empty())
+				{
+					cur = s.top();
+					v.push_back(cur->val);
+					s.pop();
+				}
+			}
+			return v;
+
+		}*/
+		 
+
+
+		vector<int> value;
+		if (head != NULL)
+		{
+			value.insert(value.begin(), head->val);
+			if (head->next != NULL)
+			{
+				vector<int> temp = printListFromTailToHead(head->next);
+				if (temp.size() > 0)
+					value.insert(value.begin(), temp.begin(), temp.end());
+			}
+		}
+		return value;
+	}
+};
