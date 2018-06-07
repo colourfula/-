@@ -1,0 +1,25 @@
+
+class Solution {
+public:
+	vector<int> multiply(const vector<int>& A) {
+		vector<int>	B;
+		vector<int> C;
+		int len = A.size();
+
+		for (int i = 0; i < len; i++)
+		{
+			C.push_back(A[i]);
+		}
+		 
+		for (int i = 0; i < len; i++)
+		{
+			C[i] = 1;
+			for (int j = 0; i < len; j++)
+			{
+				B[i] *= C[j];
+			}
+			C[i] = A[i];
+		}
+		return B;
+	}
+};
