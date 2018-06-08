@@ -1,0 +1,108 @@
+
+/*
+struct TreeNode {
+int val;
+struct TreeNode *left;
+struct TreeNode *right;
+TreeNode(int x) :
+val(x), left(NULL), right(NULL) {
+}
+};
+class Solution {
+public:
+	TreeNode* Convert(TreeNode* pRootOfTree)
+	{
+		TreeNode* root = pRootOfTree;
+		TreeNode* ListTail = NULL;
+
+		Adjust(root, ListTail);
+
+		TreeNode* HeadOfList = root;
+		while (HeadOfList != NULL && HeadOfList->left != NULL)
+		{
+			HeadOfList = HeadOfList->left;
+		}
+		return HeadOfList;
+	}
+
+	void Adjust(TreeNode* root, TreeNode* ListTail)
+	{
+		if (root == NULL)
+			return;
+
+		TreeNode* cur = root;
+
+		if (cur->left != NULL)
+		{
+			Adjust(cur->left, ListTail);
+		}
+
+
+		cur->left = ListTail;
+		if (ListTail != NULL)
+		{
+			ListTail->right = cur;
+		}
+		
+
+		if (cur->right != NULL)
+		{
+			Adjust(cur->right, ListTail);
+		}
+	}
+};
+*/
+
+
+
+
+struct TreeNode {
+int val;
+struct TreeNode *left;
+struct TreeNode *right;
+TreeNode(int x) :
+val(x), left(NULL), right(NULL) {
+}
+};
+class Solution {
+public:
+	TreeNode* Convert(TreeNode* pRootOfTree)
+	{
+		if (pRootOfTree == NULL)
+			return NULL;
+
+		TreeNode* root = pRootOfTree;
+		TreeNode* ListTail = NULL;
+
+		Adjust(root, &ListTail);
+
+		TreeNode* ListHead = root;
+		while (ListHead != NULL && ListHead->left!=NULL)
+		{
+			ListHead = ListHead->left;
+		}
+		return ListHead;
+	}
+
+
+	void Adjust(TreeNode* Node, TreeNode** ListLast)
+	{
+		TreeNode* cur = Node;
+		if (cur == NULL)
+			return;
+
+		if (cur->left !=NULL)
+		Adjust(Node->left, ListLast);
+
+		cur->left = *ListLast;
+		if (*ListLast != NULL)
+		{
+			(*ListLast)->right = cur;
+		}
+		
+		*ListLast = cur;
+
+		if (cur->right!=NULL)
+		Adjust(Node->right, ListLast);
+	}
+};
