@@ -1,0 +1,61 @@
+
+/*
+class Solution {
+public:
+	
+	*	按照左右半区的方式重新组合单链表
+	*	输入：一个单链表的头节点head
+	*	将链表调整成题目要求的样子
+	*
+	*	后台的单链表节点类如下：
+	
+	struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+	val(x), next(NULL) {
+	}
+	};
+	
+	void relocateList(struct ListNode* head) 
+	{
+		ListNode* pHead = head;
+		int len = 0;
+		while (pHead != NULL)
+		{
+			len++;
+			pHead = pHead->next;
+		}
+
+		vector<int> v;
+		pHead = head;
+
+		for (int i = 0; i < len; i++)
+		{
+			v.push_back(pHead->val);
+			pHead = pHead->next;
+		}
+
+		int left = 0;
+		int right = len >> 1+1;
+		pHead = head;
+		int key = 1;
+
+		while (key < v.size() - 1 && pHead != NULL)
+		{
+			if (key % 2 == 0)
+			{
+				pHead->val = v[left];
+				left++;
+			}
+			else
+			{
+				pHead->val = v[right];
+				right++;
+			}
+			key++;
+			pHead = pHead->next;
+		}
+
+	}
+};*/
