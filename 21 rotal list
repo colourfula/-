@@ -1,0 +1,48 @@
+
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Solution {
+public:
+	ListNode *rotateRight(ListNode *head, int k) {
+		if (head == NULL || k <= 0)
+			return head;
+
+		ListNode* pHead = head;
+		ListNode* NewHead = NULL;
+		int length = 1;
+		while (pHead->next != NULL)
+		{
+			pHead = pHead->next;
+			length++;
+		}
+		pHead = head;
+
+		k = k % length;
+		if (k == 0)
+			return head;
+
+		ListNode* Fast = pHead;
+		ListNode* Slow = pHead;
+
+		for (int i = 0; i < k; i++)
+		{
+			Fast = Fast->next;
+		}
+
+		while (Fast->next != NULL)
+		{
+			Fast = Fast->next;
+			Slow = Slow->next;
+		}
+
+		NewHead = Slow->next;
+		Slow->next = NULL;  //头和尾断开
+		Fast->next = pHead;
+		return NewHead;
+	}
+};
