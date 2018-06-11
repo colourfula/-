@@ -1,0 +1,141 @@
+struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+ };
+ 
+ class Solution {
+public:
+	ListNode *removeNthFromEnd(ListNode *head, int n) 
+	{
+		if (head == NULL || head->next == NULL)
+			return NULL;
+
+		ListNode* pHead = head;
+		ListNode* fast = head;
+		ListNode* slow = head;
+
+		for (int i = 0; i<n; i++)
+			fast = fast->next;
+
+		if (fast == NULL)
+		{
+			pHead = pHead->next;
+			return pHead;
+		}
+
+		while (fast->next != NULL)
+		{
+			slow = slow->next;
+			fast = fast->next;
+		}
+
+		slow->next = slow->next->next;
+		return pHead;
+	}
+};
+
+
+
+/*
+class Solution {
+public:
+	ListNode *removeNthFromEnd(ListNode *head, int n) 
+	{
+		if (head == NULL )
+			return NULL;
+
+		if (n == 0)
+			return head;
+
+		ListNode* pHead = head;
+		ListNode* slow = head;
+		ListNode* fast = head;
+
+		while (--n)
+		{
+			if (fast->next !=NULL)
+			fast = fast->next;
+		}
+		while (fast->next != NULL)
+		{
+			fast = fast->next;
+			slow = slow->next;
+		}
+
+		ListNode* cur = fast;
+		slow->next=cur->next;
+		delete cur;
+	}
+};*/
+ 
+ 
+ /*class Solution
+ {
+ public:
+	 ListNode *removeNthFromEnd(ListNode *head, int n) 
+	 {
+		 if (head == NULL || n == 0)
+			 return NULL;
+
+		 ListNode* pHead = head;
+		 ListNode* slow = head;
+		 ListNode* fast = head;
+
+		 for (int i = 0; i<n; i++)
+		 { 
+			 if (fast->next == NULL)
+				 return NULL;
+			 else
+				 fast = fast->next;
+		 }
+
+ 
+		 ListNode* p = NULL;
+		 while (fast)
+		 {
+			 fast = fast->next;
+			 p = slow;
+			 slow = slow->next;
+		 }
+
+		  
+
+		 if (slow == pHead)
+		 {
+			 pHead = pHead->next;
+			 delete slow;
+		 }
+		 else
+		 {
+			 p->next = slow->next;
+			 delete slow;
+		 }
+		 return head;
+	 }
+ };*/
+
+/*
+ class Solution {
+ public:
+	 ListNode *removeNthFromEnd(ListNode *head, int n) {
+		 if (head == NULL || k < 1)
+			 return head;
+
+		 ListNode* p1 = head;
+		 ListNode* p2 = head;
+		 int num = 0;
+		 while (p1->next != NULL && num < k)
+		 {
+			 ++num;
+			 p1 = p1->next;
+		 }
+		 while (p1->next != NULL)
+		 {
+			 p1 = p1->next;
+			 p2 = p2->next;
+		 }
+		 p2->next = p2->next->next;
+		 return head;
+	 }
+ };*/
