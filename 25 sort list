@@ -1,0 +1,65 @@
+
+/*
+class Solution {
+public:
+	ListNode *sortList(ListNode *head) 
+	{
+		if (head == NULL || head->next == NULL)
+			return head;
+
+		ListNode* mid = GetMidNode(head);
+		ListNode* right = sortList(mid->next);
+		mid->next = NULL;
+		ListNode* left = sortList(head);
+		return MergeTwoList(left,right);
+
+	}
+private:
+	ListNode* MergeTwoList(ListNode* List1,ListNode* List2)
+	{
+		if (List1 == NULL)
+			return List2;
+
+		if (List2 == NULL)
+			return List1;
+
+		ListNode* Node = new ListNode(0);
+		ListNode* NewHead = Node;
+
+		while (List1 != NULL && List2 != NULL)
+		{
+			if (List1->val > List2->val)
+			{
+				NewHead->next = List2;
+				List2 = List2->next;
+			}
+			else
+			{
+				NewHead->next = List1;
+				List1 = List1->next;
+			}
+			NewHead = NewHead->next;
+		}
+
+		if (List1 == NULL)
+			NewHead->next = List2;
+
+		if (List2 == NULL)
+			NewHead->next = List1;
+
+		return Node->next;
+	}
+
+	ListNode* GetMidNode(ListNode* head)
+	{
+		ListNode* fast = head;
+		ListNode* slow = head;
+		while (fast!=NULL && fast->next!=NULL && fast->next->next!=NULL)
+		{
+			fast = fast->next->next;
+			slow = slow->next;
+		}
+		return slow;
+	}
+};*/
+
