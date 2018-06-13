@@ -1,32 +1,25 @@
+ 
 class Solution {
 public:
-	ListNode *partition(ListNode *head, int x)
+	bool IsPopOrder(vector<int> pushV, vector<int> popV) 
 	{
-		if (head == NULL)
-			return NULL;
+		if (pushV.size() == 0 && popV.size() != 0 || \
+			pushV.size() != 0 && popV.size() == 0)
+			return false;
 
-		ListNode* Head1 = new ListNode(0);
-		ListNode* p1 = Head1;
+		stack<int> stack;
 
-		ListNode* Head2 = new ListNode(0);
-		ListNode* p2 = Head2;
-		while (head != NULL)
+		int popIndex = 0;
+		for (int i = 0; i < pushV.size(); i++)
 		{
-			if (head->val < x)
-			{
-				p1->next = head;
-				p1 = p1->next;
-			}
-			else
-			{
-				p2->next = head;
-				p2 = p2->next;
-			}
-			head = head->next;
-		}
+			stack.push(pushV[i]);
 
-		p1->next = Head2->next;
-		p2->next = NULL;
-		return Head1->next;
+			while (!stack.empty() && stack.top() == popV[popIndex])
+			{
+				stack.pop();
+				popIndex++;
+			}
+		}
+		return stack.empty();
 	}
 };
