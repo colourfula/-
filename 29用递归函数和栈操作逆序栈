@@ -1,0 +1,20 @@
+
+class ReverseStack {
+public:
+	void reverse(vector<int> stack, int n)
+	{
+		if (n >= stack.size())
+			return;
+
+		reverse(stack, n + 1);
+		int temp = stack[n];
+		stack[n] = stack[stack.size() - n - 1];
+		stack[stack.size() - n - 1] = temp;
+	}
+
+	vector<int> reverseStackRecursively(vector<int> stack, int top) 
+	{
+		reverse(stack, 0);
+		return stack;
+	}
+};
