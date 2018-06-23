@@ -1,0 +1,33 @@
+struct TreeNode {
+int val;
+struct TreeNode *left;
+struct TreeNode *right;
+TreeNode(int x) :
+val(x), left(NULL), right(NULL) {
+}
+};
+
+class Solution 
+{
+private:
+	bool func(TreeNode* Root1, TreeNode* Root2)
+	{
+		if (Root1==NULL && Root2==NULL)
+			return true;
+
+		if (Root1 == NULL || Root2 == NULL)
+			return false;
+
+		if (Root1->val != Root2->val)
+			return false;
+
+		return func(Root1->left, Root2->right) && \
+			func(Root1->right, Root2->left);
+	}
+public:
+	bool isSymmetrical(TreeNode* pRoot)
+	{
+		func(pRoot, pRoot);
+	}
+
+};
