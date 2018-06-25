@@ -1,0 +1,35 @@
+
+
+class Solution 
+{
+
+private:
+	bool IsBalance(TreeNode* pRoot, int& dep)
+	{
+		if (pRoot == NULL)
+			return true;
+
+		int leftLength = 0;
+		int RightLength = 0;
+
+		if (IsBalance(pRoot->left, leftLength) && IsBalance(pRoot->right, RightLength))
+		{
+			int differ = leftLength - RightLength;
+			if ((differ < -1) || (differ > 1))
+			{
+				return false;
+			}
+
+			dep = (leftLength > RightLength ? leftLength : RightLength) + 1;
+			return true;
+		}
+		return false;
+	}
+
+public:
+	bool IsBalanced_Solution(TreeNode* pRoot)
+	{
+		int dep = 0;
+		return IsBalance(pRoot, dep);
+	}
+};
