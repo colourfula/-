@@ -1,0 +1,108 @@
+
+
+
+ //Definition for binary tree
+ struct TreeNode {
+     int val;
+     TreeNode *left;
+     TreeNode *right;
+     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ };
+
+class Solution {
+public:
+	vector<int> postorderTraversal(TreeNode *root) 
+	{
+		/*vector<int> v;
+
+		if (root == NULL)
+			return;
+
+		stack <TreeNode*> s;
+
+		s.push(root);
+		while (!s.empty())
+		{
+			TreeNode* cur = s.top();
+			s.pop();
+			 v.push_back(cur->val);
+
+			if (cur->right != NULL)
+				s.push(cur->right);
+
+			if (cur->left != NULL)
+				s.push(cur->left);
+		}
+		return v;*/
+
+
+
+		//vector<int> v;
+		//if (root == NULL)
+		//	return v;
+
+		//stack<TreeNode*> s;
+		//TreeNode* cur = root;
+		//TreeNode* prev = NULL;
+
+		//while ( cur!=NULL || s.empty() )
+		//{
+		//	while (cur != NULL)
+		//	{
+		//		s.push(cur);
+		//		cur = cur->left;
+		//	}
+
+		//	if (!s.empty())
+		//	{
+		//		cur = s.top();
+		//		if (cur->val)
+		//		{
+		//			v.push_back(cur->val);
+		//			s.pop();
+		//			cur = NULL;
+		//		}
+		//		else
+		//		{
+		//			cur->val = true;
+		//		}
+		//	}
+		//}
+
+
+		vector<int> v;
+		if (root == NULL)
+			return v;
+
+		stack<TreeNode*> s;
+		s.push(root);
+		TreeNode* lastroot = root;
+
+		while (!s.empty())
+		{
+			root = s.top();
+			if (lastroot != root->right)
+			{
+				if (lastroot != root->left)
+				{
+					if (root->left != NULL)
+					{
+						s.push(root->left);
+						continue;
+					}
+				}
+				if (root->right != NULL)
+				{
+					s.push(root->right);
+					continue;
+				}
+			}
+			v.push_back(root->val);
+			lastroot = root;
+			s.pop();
+		}
+		return v;
+	}
+};
+
+
